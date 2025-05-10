@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
+CREATE TYPE "Role" AS ENUM ('USER', 'DRIVER', 'ADMIN');
 
 -- CreateEnum
 CREATE TYPE "RequestStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
@@ -10,6 +10,7 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "phoneNumber" TEXT NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'USER',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -19,7 +20,11 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Driver" (
     "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "phoneNumber" TEXT NOT NULL,
+    "role" "Role" NOT NULL DEFAULT 'DRIVER',
     "licenseNumber" TEXT NOT NULL,
     "vehicleInfo" TEXT NOT NULL,
     "isVerified" BOOLEAN NOT NULL DEFAULT false,
@@ -57,10 +62,13 @@ CREATE TABLE "JoinRequest" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Driver_userId_key" ON "Driver"("userId");
+CREATE UNIQUE INDEX "User_phoneNumber_key" ON "User"("phoneNumber");
 
--- AddForeignKey
-ALTER TABLE "Driver" ADD CONSTRAINT "Driver_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "Driver_email_key" ON "Driver"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Driver_phoneNumber_key" ON "Driver"("phoneNumber");
 
 -- AddForeignKey
 ALTER TABLE "Ride" ADD CONSTRAINT "Ride_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "Driver"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

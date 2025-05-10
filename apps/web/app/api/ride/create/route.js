@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@repo/db';
+import { prisma } from '@repo/db'
 import { verifyToken } from '../../../../lib/auth.js';
 
 export async function POST(req) {
@@ -12,8 +12,8 @@ export async function POST(req) {
 
     const decoded = verifyToken(token);
 
-    if (!decoded) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    if (!decoded || decoded.role !== 'driver') {
+      return NextResponse.json({ error: 'Forbidden: Only drivers can create rides' }, { status: 403 });
     }
 
     const { origin, destination, departure, seats, cost } = await req.json();

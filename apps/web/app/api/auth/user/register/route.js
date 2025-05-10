@@ -4,9 +4,9 @@ import { prisma } from '@repo/db';
 
 export async function POST(req) {
   try {
-    const { name, email, password } = await req.json();
+    const { name, email, password, phoneNumber } = await req.json();
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !phoneNumber) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
     }
 
@@ -22,6 +22,7 @@ export async function POST(req) {
       data: {
         name,
         email,
+        phoneNumber,
         password: hashedPassword,
       },
     });

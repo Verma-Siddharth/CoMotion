@@ -20,6 +20,7 @@ model User {
   name         String
   email        String       @unique
   password     String
+  phoneNumber   String       @unique
   role         Role         @default(USER)
   joinRequests JoinRequest[]
   createdAt    DateTime     @default(now())
@@ -27,6 +28,11 @@ model User {
 
 model Driver {
   id            String       @id @default(uuid())
+  name         String
+  email        String       @unique
+  password     String
+  phoneNumber   String       @unique
+  role         Role         @default(DRIVER)
   licenseNumber String       // Driver's license or any govt ID
   vehicleInfo   String       // Details about the vehicle (auto, e-rickshaw, etc.)
   isVerified    Boolean      @default(false)
@@ -59,6 +65,7 @@ model JoinRequest {
 
 enum Role {
   USER
+  DRIVER
   ADMIN
 }
 
