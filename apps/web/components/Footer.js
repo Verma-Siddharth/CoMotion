@@ -1,8 +1,8 @@
 export default function Footer() {
   return (
-    <footer className="bg-blue-700 text-white py-12 px-6 mt-20">
+    <footer className="bg-blue-700 text-white py-12 px-6 mt-16">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
-
+        
         {/* Brand & Description */}
         <div>
           <h2 className="text-3xl font-bold mb-4">RidePool</h2>
