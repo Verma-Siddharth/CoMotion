@@ -27,6 +27,7 @@ export async function GET(req) {
 
     const rides = await prisma.ride.findMany({
       where: {
+        status: "SCHEDULED",
         departure: {
           gt: now,
         },

@@ -32,6 +32,9 @@ io.on('connection', (socket) => {
   socket.on('approve:join', ({ userId, rideId }) => {
     io.emit(`join-approved:${userId}`, { rideId });
   });
+  socket.on('reject:join', ({ userId, rideId }) => {
+    io.emit(`join-rejected:${userId}`, { rideId });
+  });
 
   socket.on('disconnect', () => {
     console.log('Socket disconnected:', socket.id);
@@ -41,6 +44,12 @@ io.on('connection', (socket) => {
 app.post('/emit-approval', (req, res) => {
   const { userId, rideId } = req.body;
   io.emit(`join-approved:${userId}`, { rideId });
+  res.send({ status: 'ok' });
+});
+
+app.post('/emit-rejection', (req, res) => {
+  const { userId, rideId } = req.body;
+  io.emit(`join-rejected:${userId}`, { rideId });
   res.send({ status: 'ok' });
 });
 

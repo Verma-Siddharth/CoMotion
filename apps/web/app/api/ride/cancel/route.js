@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/db.js';
-import { verifyToken } from '@/lib/auth.js';
+import { prisma } from '@repo/db';
+import { verifyToken } from "../../../../lib/auth";
 
 export async function POST(req) {
   const token = req.cookies.get('token')?.value;

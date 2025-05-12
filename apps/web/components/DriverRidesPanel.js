@@ -12,7 +12,11 @@ export default function DriverRidesPanel() {
         const response = await axios.get("/api/driver/rides");
         console.log("Rides:", response.data);
         if (response.status === 200) {
-          setRides(response.data.rides);
+          setRides(
+            (response.data.rides || []).filter(
+              (ride) => ride.status === "ACTIVE" || ride.status === "SCHEDULED"
+            )
+          );
         } else {
           console.error("Failed to fetch rides");
         }
@@ -22,29 +26,26 @@ export default function DriverRidesPanel() {
     };
 
     fetchRides();
-    
   }, []);
 
   const handleUpdate = async (rideId, action) => {
-
     try {
-        const response = await axios.post(`/api/ride/${action}`, { rideId });
-        console.log("Update Ride Response:", response);
-        if (response.status === 200) {
-          setRides((prev) =>
-            prev.map((r) =>
-              r.id === rideId
-                ? { ...r, status: action === "end" ? "ENDED" : "CANCELLED" }
-                : r
-            )
-          );
-        } else {
-          console.error("Failed to update ride");
-        }
+      const response = await axios.post(`/api/ride/${action}`, { rideId });
+      console.log("Update Ride Response:", response);
+      if (response.status === 200) {
+        setRides((prev) =>
+          prev.map((r) =>
+            r.id === rideId
+              ? { ...r, status: action === "end" ? "ENDED" : "CANCELLED" }
+              : r
+          )
+        );
+      } else {
+        console.error("Failed to update ride");
+      }
     } catch (error) {
       console.error("Error updating ride:", error);
     }
-
   };
 
   return (

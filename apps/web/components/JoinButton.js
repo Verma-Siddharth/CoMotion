@@ -1,5 +1,6 @@
 'use client';
 
+import axios from 'axios';
 import { useState } from 'react';
 
 export default function JoinButton({ rideId }) {
@@ -7,17 +8,13 @@ export default function JoinButton({ rideId }) {
 
   const handleJoin = async () => {
     setStatus('Joining...');
-    const res = await fetch('/api/ride/join', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ rideId }),
-    });
-
-    const data = await res.json();
-    if (!res.ok) {
-      setStatus(data.error || 'Error');
-    } else {
+    const res = await axios.post('/api/ride/join', { rideId });
+    console.log('Join Ride Response:', res);
+    if (res.status === 200) {
       setStatus('Request Sent!');
+    } else {
+      const data = await res.json();
+      setStatus(data.error || 'Error');
     }
   };
 

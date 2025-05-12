@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@repo/db";
 import { verifyToken } from "../../../../lib/auth.js";
+import { stat } from "fs";
 
 export async function POST(req) {
   try {
@@ -21,6 +22,13 @@ export async function POST(req) {
 
     const { origin, destination, departure, seats, cost } = await req.json();
 
+    console.log("Ride creation data:", {
+      origin,
+      destination,
+      departure,
+      seats,
+      cost,
+    });
     if (!origin || !destination || !departure || !seats || !cost) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
@@ -28,13 +36,15 @@ export async function POST(req) {
     const existing = await prisma.ride.findFirst({
       where: {
         driverId: decoded.id,
+        status: "SCHEDULED",
         departure: {
-          gt: new Date(),
+          gte: new Date(),
         },
       },
     });
 
     if (existing) {
+      console.log("Existing ride found:", existing);
       return NextResponse.json(
         { error: "You already have an active ride." },
         { status: 400 }

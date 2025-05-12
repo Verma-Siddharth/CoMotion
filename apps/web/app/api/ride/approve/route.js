@@ -67,11 +67,7 @@ export async function POST(req) {
 
     // Notify the passenger 
     const response = await axios.post( "http://localhost:4000/emit-approval", { userId: joinRequest.userId, rideId: joinRequest.rideId });
-    await fetch("http://localhost:4000/emit-approval", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: request.userId, rideId: request.rideId }),
-    });
+    
     // Decrease ride seats
     await prisma.ride.update({
       where: { id: ride.id },

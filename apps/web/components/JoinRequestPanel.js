@@ -10,6 +10,7 @@ export default function JoinRequestsPanel() {
     const fetchRequests = async () => {
       try {
         const response = await axios.get("/api/driver/requests");
+        console.log("Join Requests:", response.data.requests);
         if (response.status === 200) {
           setRequests(response.data.requests || []);
         } else {
@@ -22,18 +23,12 @@ export default function JoinRequestsPanel() {
     fetchRequests();
   }, []);
 
-  const handleAction = async (requestId, action) => {
-    const res = await fetch(`/api/ride/${action}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ requestId }),
-    });
-
-    const data = await res.json();
-    if (res.ok) {
-      setRequests((prev) => prev.filter((r) => r.id !== requestId));
+  const handleAction = async (joinRequestId, action) => {
+    const res = await axios.post(`/api/ride/${action}`, { joinRequestId });
+    if (res.status === 200) {
+      setRequests((prev) => prev.filter((r) => r.id !== joinRequestId));
     } else {
-      alert(data.error);
+      alert(res.data.error);
     }
   };
 

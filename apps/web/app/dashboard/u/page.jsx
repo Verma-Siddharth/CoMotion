@@ -5,6 +5,7 @@ import RideCard from "../../../components/RideCard";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import useApprovalNotifications from "../../../components/hooks/useApprovalNotifications";
+import useRejectionNotifications from "../../../components/hooks/useRejectionNotification";
 
 export default function UserDashboard() {
   const [rides, setRides] = useState([]);
@@ -45,6 +46,11 @@ export default function UserDashboard() {
 
   useApprovalNotifications(userId, (rideId) => {
     setMessage(`Your request for Ride ${rideId} was approved!`);
+    setTimeout(() => setMessage(""), 5000);
+  });
+
+  useRejectionNotifications(userId, (rideId) => {
+    setMessage(`Your request for Ride ${rideId} was rejected.`);
     setTimeout(() => setMessage(""), 5000);
   });
 
