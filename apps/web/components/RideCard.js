@@ -1,8 +1,13 @@
 'use client';
 
+import useLiveRideLocation from './hooks/useLiveRideLocation';
 import JoinButton from './JoinButton';
+import LiveMap from './LiveMap';
 
 export default function RideCard({ ride, showJoin = false }) {
+
+  const location = useLiveRideLocation(ride.id);
+
   return (
   <div className="rounded-lg border border-blue-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
     {/* Route */}
@@ -24,7 +29,16 @@ export default function RideCard({ ride, showJoin = false }) {
         <span className="font-medium text-gray-600">Cost:</span>{' '}
         <span className="text-blue-600 font-semibold">₹{ride.cost}</span>
       </p>
+      {location ? (
+        <p className="text-green-600">
+          📍 Driver Location: {location.lat.toFixed(4)}, {location.lng.toFixed(4)}
+        </p>
+      ) : (
+        <p className="text-gray-500">Waiting for driver location...</p>
+      )}
     </div>
+
+    <LiveMap lat={location?.lat} lng={location?.lng} />
 
     {/* Join Button */}
     {showJoin && (

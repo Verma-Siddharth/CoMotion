@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 export default function DriverRegisterPage() {
   const router = useRouter();
   const [form, setForm] = useState({
     name: '',
     email: '',
+    phoneNumber: '',
     password: '',
     licenseNumber: '',
     vehicleInfo: '',
@@ -22,17 +24,18 @@ export default function DriverRegisterPage() {
     e.preventDefault();
     setError('');
 
-    const res = await fetch('/api/auth/driver/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
-
-    const data = await res.json();
-    if (!res.ok) {
-      setError(data.error || 'Something went wrong');
-    } else {
-      router.push('/auth/driver/login');
+    try {
+      const response = await axios.post('/api/auth/driver/register', form);
+      console.log('Registration response:', response);
+      if (response.status === 200) {
+        router.push('/auth/driver/login');
+      } else {
+        setError(response.data.error || 'Something went wrong');
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+      setError('An error occurred. Please try again.');
+      
     }
   };
 
@@ -69,6 +72,20 @@ export default function DriverRegisterPage() {
           />
           <label className="absolute text-xs font-medium text-blue-600 top-2 left-4 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-blue-400 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-600">
             Email Address
+          </label>
+        </div>
+
+        <div className="relative">
+          <input 
+            type="number" 
+            name="phoneNumber" 
+            placeholder=" " 
+            onChange={handleChange} 
+            required 
+            className="w-full px-4 py-3 rounded-xl bg-blue-50 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all peer pt-5 pb-2" 
+          />
+          <label className="absolute text-xs font-medium text-blue-600 top-2 left-4 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-blue-400 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-600">
+            Phone Number
           </label>
         </div>
     

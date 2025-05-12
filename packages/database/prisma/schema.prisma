@@ -14,53 +14,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id           String       @id @default(uuid())
+  id           String        @id @default(uuid())
   name         String
-  email        String       @unique
+  email        String        @unique
   password     String
-  phoneNumber   String       @unique
-  role         Role         @default(USER)
+  phoneNumber  String        @unique
+  role         Role          @default(USER)
   joinRequests JoinRequest[]
-  createdAt    DateTime     @default(now())
+  createdAt    DateTime      @default(now())
 }
 
 model Driver {
-  id            String       @id @default(uuid())
-  name         String
-  email        String       @unique
-  password     String
-  phoneNumber   String       @unique
-  role         Role         @default(DRIVER)
-  licenseNumber String       // Driver's license or any govt ID
-  vehicleInfo   String       // Details about the vehicle (auto, e-rickshaw, etc.)
-  isVerified    Boolean      @default(false)
-  rides         Ride[]       @relation("DriverRides")
-  createdAt     DateTime     @default(now())
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password      String
+  phoneNumber   String   @unique
+  role          Role     @default(DRIVER)
+  licenseNumber String // Driver's license or any govt ID
+  vehicleInfo   String // Details about the vehicle (auto, e-rickshaw, etc.)
+  isVerified    Boolean  @default(false)
+  rides         Ride[]   @relation("DriverRides")
+  createdAt     DateTime @default(now())
 }
 
 model Ride {
-  id            String         @id @default(uuid())
-  driverId      String
-  driver        Driver         @relation("DriverRides", fields: [driverId], references: [id])
-  origin        String
-  destination   String
-  departure     DateTime
-  seats         Int
-  cost          Float
-  joinRequests  JoinRequest[]
-  createdAt     DateTime       @default(now())
+  id           String        @id @default(uuid())
+  driverId     String
+  driver       Driver        @relation("DriverRides", fields: [driverId], references: [id])
+  origin       String
+  destination  String
+  departure    DateTime
+  seats        Int
+  cost         Float
+  joinRequests JoinRequest[]
+  status       RideStatus    @default(SCHEDULED)
+  createdAt    DateTime      @default(now())
 }
 
 model JoinRequest {
-  id        String   @id @default(uuid())
-  ride      Ride     @relation(fields: [rideId], references: [id])
+  id        String        @id @default(uuid())
+  ride      Ride          @relation(fields: [rideId], references: [id])
   rideId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User          @relation(fields: [userId], references: [id])
   userId    String
   status    RequestStatus @default(PENDING)
-  createdAt DateTime @default(now())
+  createdAt DateTime      @default(now())
 }
 
 enum Role {
@@ -73,4 +73,11 @@ enum RequestStatus {
   PENDING
   APPROVED
   REJECTED
+}
+
+enum RideStatus {
+  SCHEDULED
+  ACTIVE
+  ENDED
+  CANCELLED
 }

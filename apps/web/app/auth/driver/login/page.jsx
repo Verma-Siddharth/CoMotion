@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
+import axios from 'axios';
+ 
 export default function DriverLoginPage() {
   const router = useRouter();
   const [form, setForm] = useState({ email: '', password: '' });
@@ -16,17 +17,18 @@ export default function DriverLoginPage() {
     e.preventDefault();
     setError('');
 
-    const res = await fetch('/api/auth/driver/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
-
-    const data = await res.json();
-    if (!res.ok) {
-      setError(data.error || 'Login failed');
-    } else {
-      router.push('/dashboard/driver');
+    try {
+      const response = await axios.post('/api/auth/driver/login', form);
+      console.log('Login response:', response);
+      if (response.status === 200) {
+        router.push('/dashboard/d');
+      } else {
+        setError(response.data.error || 'Something went wrong');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setError('An error occurred. Please try again.');
+      
     }
   };
 

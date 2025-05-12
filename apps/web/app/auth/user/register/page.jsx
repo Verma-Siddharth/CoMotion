@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 export default function UserRegisterPage() {
   const router = useRouter();
@@ -16,17 +17,18 @@ export default function UserRegisterPage() {
     e.preventDefault();
     setError('');
 
-    const res = await fetch('/api/auth/user/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
-
-    const data = await res.json();
-    if (!res.ok) {
-      setError(data.error || 'Something went wrong');
-    } else {
-      router.push('/auth/user/login');
+    try {
+      const response = await axios.post('/api/auth/user/register', form);
+      console.log('Register response:', response);
+      if (response.status === 200) {
+        router.push('/auth/user/login');
+      } else {
+        setError(response.data.error || 'Something went wrong');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setError('An error occurred. Please try again.');
+      
     }
   };
 

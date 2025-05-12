@@ -7,6 +7,8 @@ export async function POST(req) {
   try {
     const { email, password } = await req.json();
 
+    console.log('Driver login attempt:', { email, password });
+    
     if (!email || !password) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
     }

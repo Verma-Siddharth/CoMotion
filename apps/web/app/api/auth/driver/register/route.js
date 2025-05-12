@@ -5,7 +5,8 @@ import { prisma } from '@repo/db';
 export async function POST(req) {
   try {
     const { name, email, password, phoneNumber, licenseNumber, vehicleInfo } = await req.json();
-
+    console.log('Driver registration data:', { name, email, password, phoneNumber, licenseNumber, vehicleInfo });
+    
     if (!name || !email || !password || !phoneNumber || !licenseNumber || !vehicleInfo) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
     }
