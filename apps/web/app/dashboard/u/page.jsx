@@ -55,24 +55,37 @@ export default function UserDashboard() {
   });
 
   return (
-    <main className="max-w-4xl mx-auto mt-10">
-      {message && (
-        <p className="bg-green-200 text-green-800 p-2 rounded mb-4">
-          {message}
-        </p>
-      )}
-      <h1 className="text-2xl font-bold mb-6">Available Rides</h1>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+  <main className="max-w-4xl mx-auto mt-12 px-4">
+    {/* Success Message */}
+    {message && (
+      <p className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-6 text-center shadow-sm">
+        {message}
+      </p>
+    )}
 
-      {rides.length === 0 ? (
-        <p>No rides available right now.</p>
-      ) : (
-        <div className="space-y-4">
-          {rides.map((ride) => (
-            <RideCard key={ride.id} ride={ride} showJoin />
-          ))}
-        </div>
-      )}
-    </main>
-  );
+    {/* Page Heading */}
+    <h1 className="text-2xl font-bold text-blue-800 mb-6 text-center">
+       Available Rides
+    </h1>
+
+    {/* Error Message */}
+    {error && (
+      <p className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg mb-6 text-center shadow-sm">
+        {error}
+      </p>
+    )}
+
+    {/* Ride List */}
+    {rides.length === 0 ? (
+      <p className="text-center text-gray-500 italic">No rides available right now.</p>
+    ) : (
+      <div className="space-y-6">
+        {rides.map((ride) => (
+          <RideCard key={ride.id} ride={ride} showJoin />
+        ))}
+      </div>
+    )}
+  </main>
+);
+
 }

@@ -49,70 +49,104 @@ export default function CreateRideForm({ onRideCreated }) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-xl mx-auto p-4 border rounded shadow space-y-4"
-    >
-      <h2 className="text-xl font-bold">Create a New Ride</h2>
+  <form
+    onSubmit={handleSubmit}
+    className="max-w-2xl mx-auto mt-2 p-4 bg-white border border-blue-100 rounded-2xl shadow-xl space-y-5 overflow-y-auto max-h-[90vh]"
+  >
+    {/* Heading */}
+    <div className="text-center">
+      <h2 className="text-2xl font-bold text-blue-700">🚗 Create a Ride</h2>
+      <p className="text-gray-500 text-sm">Enter ride details below.</p>
+    </div>
 
-      {status && <p className="text-sm text-blue-600">{status}</p>}
+    {/* Status Message */}
+    {status && (
+      <div className="text-sm text-blue-700 bg-blue-50 border border-blue-100 px-3 py-2 rounded text-center shadow-sm">
+        {status}
+      </div>
+    )}
 
-      <input
-        type="text"
-        name="origin"
-        placeholder="Origin"
-        className="w-full border px-3 py-2 rounded"
-        value={form.origin}
-        onChange={handleChange}
-        required
-      />
+    {/* Form Inputs */}
+    <div className="space-y-4">
+      <div className="flex flex-col">
+        <label htmlFor="origin" className="text-sm font-medium text-gray-600 mb-1">Origin</label>
+        <input
+          type="text"
+          name="origin"
+          placeholder="🛫 Where from?"
+          className="rounded-lg px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700 text-sm"
+          value={form.origin}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-      <input
-        type="text"
-        name="destination"
-        placeholder="Destination"
-        className="w-full border px-3 py-2 rounded"
-        value={form.destination}
-        onChange={handleChange}
-        required
-      />
+      <div className="flex flex-col">
+        <label htmlFor="destination" className="text-sm font-medium text-gray-600 mb-1">Destination</label>
+        <input
+          type="text"
+          name="destination"
+          placeholder="🛬 Where to?"
+          className="rounded-lg px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700 text-sm"
+          value={form.destination}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-      <input
-        type="datetime-local"
-        name="departure"
-        className="w-full border px-3 py-2 rounded"
-        value={form.departure}
-        onChange={handleChange}
-        required
-      />
+      <div className="flex flex-col">
+        <label htmlFor="departure" className="text-sm font-medium text-gray-600 mb-1">Departure Time</label>
+        <input
+          type="datetime-local"
+          name="departure"
+          className="rounded-lg px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700 text-sm"
+          value={form.departure}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-      <input
-        type="number"
-        name="seats"
-        min="1"
-        className="w-full border px-3 py-2 rounded"
-        value={form.seats}
-        onChange={handleChange}
-        required
-      />
+      <div className="flex flex-col">
+        <label htmlFor="seats" className="text-sm font-medium text-gray-600 mb-1">Seats Available</label>
+        <input
+          type="number"
+          name="seats"
+          min="1"
+          placeholder="🪑 Seats"
+          className="rounded-lg px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700 text-sm"
+          value={form.seats}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-      <input
-        type="number"
-        name="cost"
-        placeholder="Cost in ₹"
-        className="w-full border px-3 py-2 rounded"
-        value={form.cost}
-        onChange={handleChange}
-        required
-      />
+      <div className="flex flex-col">
+        <label htmlFor="cost" className="text-sm font-medium text-gray-600 mb-1">Cost (₹)</label>
+        <input
+          type="number"
+          name="cost"
+          placeholder="💰 Cost"
+          className="rounded-lg px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700 text-sm"
+          value={form.cost}
+          onChange={handleChange}
+          required
+        />
+      </div>
+    </div>
 
+    {/* Submit Button */}
+    <div className="pt-2">
       <button
         type="submit"
         disabled={loading}
-        className="bg-red-600  px-4 py-2 rounded hover:bg-green-700"
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
       >
-        {loading ? "Creating..." : "Create Ride"}
+        {loading ? "⏳ Creating..." : "🚀 Create Ride"}
       </button>
-    </form>
-  );
+    </div>
+  </form>
+);
+
+
+
 }
