@@ -1,15 +1,12 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
+// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import markerIconPng from "leaflet/dist/images/marker-icon.png"
+import {Icon} from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 
-// Fix default marker icon (important!)
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
-});
+
 
 export default function LiveMap({ lat, lng }) {
   if (!lat || !lng) return <p className="text-gray-500">Waiting for driver location...</p>;
@@ -21,7 +18,7 @@ export default function LiveMap({ lat, lng }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[lat, lng]}>
+        <Marker position={[lat, lng]} icon={new Icon({iconUrl: "leaflet/dist/images/marker-icon.png", iconSize: [25, 41], iconAnchor: [12, 41]})}>
           <Popup>Driver's current location</Popup>
         </Marker>
       </MapContainer>

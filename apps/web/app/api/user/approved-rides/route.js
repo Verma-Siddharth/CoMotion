@@ -16,17 +16,21 @@ export async function GET(req) {
       return NextResponse.json({ error: 'Forbidden: Users only' }, { status: 403 });
     }
 
-    const joinedRides = await prisma.joinRequest.findMany({
-      where: {
-        userId: decoded.id,
-        status: 'APPROVED',
-      },
-      include: {
-        ride: true,
-      },
-    });
 
-    return NextResponse.json({ joinedRides });
+    const joinedRides = await prisma.joinRequest.findMany({
+    where: { 
+      userId: decoded.id,
+      status: 'APPROVED'
+     },
+    include: {
+      ride: true,
+    },
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
+
+    return NextResponse.json({ joinedRides }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });

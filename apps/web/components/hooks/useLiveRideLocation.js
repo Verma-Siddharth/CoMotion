@@ -7,6 +7,7 @@ export default function useLiveRideLocation(rideId) {
   const [location, setLocation] = useState(null);
   const socketRef = useRef(null);
 
+
   useEffect(() => {
     if (!rideId) return;
 
@@ -15,7 +16,7 @@ export default function useLiveRideLocation(rideId) {
     socket.on(`ride-location:${rideId}`, (data) => {
       setLocation(data); // { lat, lng }
     });
-
+console.log(location);
     socketRef.current = socket;
 
     return () => {

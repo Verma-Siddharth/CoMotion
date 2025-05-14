@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import JoinRequestsPanel from './JoinRequestsPanel';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const [role, setRole] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     // Try to decode the JWT from cookie (if exists)
@@ -23,8 +25,15 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    // window.location.href = '/';
+    const response = await axios.post('/api/auth/logout');
+    if (response.status === 200) {
+      
+      setRole(null);
+      
+      router.push('/'); // Redirect to home page
+    } else {
+      console.error('Logout failed');
+    }
   };
 
   return (
