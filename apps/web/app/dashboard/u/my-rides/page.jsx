@@ -33,37 +33,48 @@ export default function MyRidesPage() {
 
   
   useEffect(() => {
-    // async function fetchJoinedRides() {
-    //   try {
-    //     const res = await fetch('/api/user/rides');
-    //     const data = await res.json();
+    async function fetchJoinedRides() {
+      try {
+        const res = await fetch('/api/user/rides');
+        const data = await res.json();
 
-    //     if (!res.ok) throw new Error(data.error || 'Failed to fetch rides');
-    //     setRides(data.joinedRides || []);
-    //   } catch (err) {
-    //     setError(err.message);
-    //   }
-    // }
+        if (!res.ok) throw new Error(data.error || 'Failed to fetch rides');
+        setRides(data.joinedRides || []);
+      } catch (err) {
+        setError(err.message);
+      }
+    }
 
-    // fetchJoinedRides();
+    fetchJoinedRides();
 
-    setRides(r);
+    
   }, []);
 
   return (
-    <main className="max-w-4xl mx-auto mt-10">
-      <h1 className="text-2xl font-bold mb-6">My Confirmed Rides</h1>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+  <main className="max-w-4xl mx-auto mt-12 px-4">
+    {/* Page Heading */}
+    <h1 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+      ✅ My Confirmed Rides
+    </h1>
 
-      {rides.length === 0 ? (
-        <p>No confirmed rides yet.</p>
-      ) : (
-        <div className="space-y-4">
-          {rides.map(({ ride }) => (
-            <RideCard key={ride.id} ride={ride} />
-          ))}
-        </div>
-      )}
-    </main>
-  );
+    {/* Error Message */}
+    {error && (
+      <p className="text-red-600 bg-red-50 border border-red-100 px-4 py-2 rounded mb-4 text-center">
+        {error}
+      </p>
+    )}
+
+    {/* Ride List */}
+    {rides.length === 0 ? (
+      <p className="text-center text-gray-500 italic">No confirmed rides yet.</p>
+    ) : (
+      <div className="space-y-6">
+        {rides.map(({ ride }) => (
+          <RideCard key={ride.id} ride={ride} />
+        ))}
+      </div>
+    )}
+  </main>
+);
+
 }

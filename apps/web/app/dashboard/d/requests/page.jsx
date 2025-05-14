@@ -1,6 +1,8 @@
 'use client';
 
-import JoinRequestsPanel from '../../../components/JoinRequestPanel';
+import JoinRequestsPanel from "../../../../components/JoinRequestsPanel";
+
+// import JoinRequestsPanel from '../../../components/JoinRequestsPanel';
 
 export default function DriverJoinRequestPage() {
 
@@ -11,4 +13,4 @@ export default function DriverJoinRequestPage() {
       <JoinRequestsPanel />
     </main>
   );
-}
+} 

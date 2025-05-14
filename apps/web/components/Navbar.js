@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import JoinRequestsPanel from './JoinRequestsPanel';
 
 export default function Navbar() {
   const [role, setRole] = useState(null);
@@ -43,13 +44,13 @@ export default function Navbar() {
         {role === 'user' && (
           <>
             <Link
-              href="/dashboard/user"
+              href="/dashboard/u"
               className="hover:text-blue-600 transition-colors duration-200"
             >
               Dashboard
             </Link>
             <Link
-              href="/dashboard/user/my-rides"
+              href="/dashboard/u/my-rides"
               className="hover:text-blue-600 transition-colors duration-200"
             >
               My Rides
@@ -60,13 +61,13 @@ export default function Navbar() {
         {role === 'driver' && (
           <>
             <Link
-              href="/dashboard/driver"
+              href="/dashboard/d"
               className="hover:text-blue-600 transition-colors duration-200"
             >
               Dashboard
             </Link>
             <Link
-              href="/dashboard/driver/requests"
+              href="/dashboard/d/requests"
               className="hover:text-blue-600 transition-colors duration-200"
             >
               Join Requests
